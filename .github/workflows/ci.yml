@@ -1,0 +1,83 @@
+name: ci
+on:
+  pull_request: {}
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: [18]
+        os: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Install Playwright
+        run: pnpm playwright-core install chromium
+
+      - name: Build
+        run: pnpm build
+
+      - name: Cache dist
+        uses: actions/cache@v4
+        with:
+          path: dist
+          key: ${{ matrix.os }}-node-v${{ matrix.node-version }}-${{ github.sha }}
+
+      - name: Test
+        run: pnpm test
+
+  nightly-release:
+    needs:
+      - test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: [18]
+        os: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: corepack enable
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Restore dist cache
+        uses: actions/cache@v4
+        with:
+          path: dist
+          key: ${{ matrix.os }}-node-v${{ matrix.node-version }}-${{ github.sha }}
+
+      - name: Release Nightly
+        if: |
+          github.event_name == 'push' &&
+          !startsWith(github.event.head_commit.message, '[skip-release]') &&
+          !startsWith(github.event.head_commit.message, 'chore') &&
+          !startsWith(github.event.head_commit.message, 'docs')
+        run: ./scripts/release-nightly.sh
+        env:
+          NPM_TOKEN: ${{secrets.NPM_TOKEN}}

@@ -1,10 +1,9 @@
 {
   "name": "@goede/nuxt-mail",
-  "version": "5.0.1",
+  "version": "0.1.0",
   "description": "Adds email sending capability to a Nuxt.js app. Adds a server route, an injected variable, and uses nodemailer to send emails.",
   "keywords": [
     "email",
-    "express",
     "frontend",
     "inject",
     "javascript",
@@ -19,7 +18,10 @@
     "server",
     "webdevelopment"
   ],
-  "repository": "bobbiegoede/nuxt-mail",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BobbieGoede/nuxt-mail.git"
+  },
   "funding": "https://github.com/sponsors/bobbiegoede",
   "license": "MIT",
   "author": "Bobbie Goede",
@@ -47,8 +49,8 @@
   "scripts": {
     "prepare": "nuxt prepare",
     "build": "nuxt-module-build build .",
-    "dev:prepare": "nuxt-module-build prepare && nuxi prepare playground",
     "lint": "eslint .",
+    "release": "bumpp --commit \"release: v%s\" --push --tag",
     "test": "pnpm --filter './specs/fixtures/**' dev:prepare && vitest"
   },
   "dependencies": {
@@ -65,11 +67,14 @@
     "@playwright/test": "^1.46.1",
     "@types/eslint": "^9.6.1",
     "@types/nodemailer": "^6.4.15",
+    "bumpp": "^9.5.2",
+    "changelogithub": "^0.13.10",
     "consola": "^3.2.3",
     "eslint": "^9.9.1",
     "eslint-config-prettier": "^9.1.0",
     "globals": "^15.9.0",
     "h3": "^1.12.0",
+    "jiti": "^1.21.6",
     "nitropack": "^2.9.7",
     "nuxt": "^3.13.0",
     "ofetch": "^1.3.4",
