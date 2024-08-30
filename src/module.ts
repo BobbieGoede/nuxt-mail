@@ -5,25 +5,6 @@ import { fileURLToPath } from "node:url";
 export const distDir = dirname(fileURLToPath(import.meta.url));
 export const runtimeDir = fileURLToPath(new URL("./runtime", import.meta.url));
 
-type MailMessage = {
-  name?: string;
-  to?: string;
-  cc?: string;
-  bcc?: string;
-};
-
-export interface ModuleOptions {
-  message: MailMessage | MailMessage[];
-  smtp: SMTPConnection.Options;
-}
-
-export interface GeneratedTypeConfig {}
-
-export interface ModuleResolvedOptions {
-  message: MailMessage[];
-  smtp: SMTPConnection.Options;
-}
-
 declare module "@nuxt/schema" {
   interface NuxtConfig {
     ["mail"]?: Partial<ModuleOptions>;
@@ -34,15 +15,15 @@ declare module "@nuxt/schema" {
 }
 
 import { MODULE_NAME } from "./constants";
-import type SMTPConnection from "nodemailer/lib/smtp-connection";
+import type { MailMessage, ModuleOptions } from "./types";
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: MODULE_NAME,
     configKey: "mail",
   },
-  async setup(moduleOptions, nuxt) {
-    const options = { ...moduleOptions };
+  setup(moduleOptions, nuxt) {
+    const options = { ...moduleOptions } as ModuleOptions;
     const resolver = createResolver(import.meta.url);
 
     if (!options.smtp) {
@@ -67,10 +48,10 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     const serializedOptions = JSON.stringify(options, undefined, 2);
-    nuxt.hook("nitro:config", async (nitroConfig) => {
+    nuxt.hook("nitro:config", (nitroConfig) => {
       // add virtual options.mjs file to nitro
       nitroConfig.virtual ??= {};
-      nitroConfig.virtual[`#internal/${MODULE_NAME}/options.mjs`] = `export default ${serializedOptions}`;
+      nitroConfig.virtual[`#internal/${MODULE_NAME}/options.mjs`] = `export const options = ${serializedOptions}`;
 
       // replace/define module name
       nitroConfig.replace ??= {};

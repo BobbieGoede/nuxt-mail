@@ -1,0 +1,37 @@
+{
+	"extends": "./.nuxt/tsconfig.json",
+	"compilerOptions": {
+		"skipLibCheck": true,
+		"types": [
+			"./src/env.d.ts"
+		],
+		"paths": {
+			"#app": [
+				"./node_modules/nuxt/dist/app"
+			],
+			"#app/*": [
+				"./node_modules/nuxt/dist/app/*"
+			],
+			"#components": [
+				"./.nuxt/components"
+			],
+			"#imports": [
+				"./.nuxt/imports.d.ts"
+			],
+			"#pages": [
+				"./node_modules/nuxt/dist/pages/runtime/index.d.ts"
+			],
+			"#internal/__MODULE_NAME__/options.mjs": [
+				"./src/options.d.ts"
+			],
+			"virtual:nuxt-mail-types": [
+				"./src/types.ts"
+			]
+		}
+	},
+	"exclude": [
+		"dist",
+		"node_modules",
+		"playground"
+	]
+}
