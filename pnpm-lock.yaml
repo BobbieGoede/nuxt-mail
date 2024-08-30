@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@goede/nuxt-mail': workspace:*
+  '@goede/nuxt-mail': link:.
 
 importers:
 
@@ -91,7 +91,7 @@ importers:
   playground:
     devDependencies:
       '@goede/nuxt-mail':
-        specifier: workspace:*
+        specifier: link:..
         version: link:..
       nuxt:
         specifier: ^3.13.0
@@ -100,7 +100,7 @@ importers:
   specs/fixtures/basic:
     devDependencies:
       '@goede/nuxt-mail':
-        specifier: workspace:*
+        specifier: link:../../..
         version: link:../../..
       nuxt:
         specifier: ^3.13.0

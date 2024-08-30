@@ -27,8 +27,13 @@
   "files": [
     "dist"
   ],
+  "pnpm": {
+    "overrides": {
+      "@goede/nuxt-mail": "link:."
+    }
+  },
   "resolutions": {
-    "@goede/nuxt-mail": "workspace:*"
+    "@goede/nuxt-mail": "link:."
   },
   "exports": {
     ".": {
@@ -42,8 +47,7 @@
   "scripts": {
     "prepare": "nuxt prepare",
     "build": "nuxt-module-build build .",
-    "stub": "nuxi build-module --stub .",
-    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
+    "dev:prepare": "nuxt-module-build prepare && nuxi prepare playground",
     "lint": "eslint .",
     "test": "vitest"
   },
