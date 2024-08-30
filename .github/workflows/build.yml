@@ -50,6 +50,7 @@ jobs:
       - run: corepack enable
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
+        run: pnpm playwright-core install chromium
       - env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: pnpm test
