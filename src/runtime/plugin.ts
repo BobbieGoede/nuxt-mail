@@ -1,4 +1,4 @@
-import { defineNuxtPlugin } from "#imports";
+import { defineNuxtPlugin } from "#app";
 import { send } from "./utils";
 
 export default defineNuxtPlugin({

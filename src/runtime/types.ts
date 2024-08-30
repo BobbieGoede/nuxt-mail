@@ -1,4 +1,3 @@
-// @ts-ignore
 import type { GeneratedTypeConfig } from "@goede/nuxt-mail";
 
 export type GeneratedConfigNames = GeneratedTypeConfig extends Record<"configNames", infer ConfigName>

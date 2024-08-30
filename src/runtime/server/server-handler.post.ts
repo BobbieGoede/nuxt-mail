@@ -5,12 +5,12 @@ import { createError, defineEventHandler, readBody } from "h3";
 import { options } from "#internal/__MODULE_NAME__/options.mjs";
 
 import type { Transporter } from "nodemailer";
-import type { ModuleResolvedOptions } from "virtual:nuxt-mail-types";
+import type { ModuleResolvedOptions } from "../../types";
 import type { MailBody } from "../types";
 
 async function send(body: MailBody, options: ModuleResolvedOptions, transport: Transporter) {
   // type assertion due to conflicts between generated/built types
-  let configIndexer = (body.config ?? 0) as string | number;
+  let configIndexer = body.config ?? 0;
 
   if (typeof configIndexer === "string") {
     const configIndex = options.message.findIndex((messageConfig) => messageConfig.name === configIndexer);

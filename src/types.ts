@@ -1,4 +1,4 @@
-import type SMTPTransport from "nodemailer/lib/smtp-transport";
+import type { Options } from "nodemailer/lib/smtp-transport";
 
 export type MailMessage = {
   name?: string;
@@ -9,7 +9,7 @@ export type MailMessage = {
 
 export interface ModuleOptions {
   message: MailMessage | MailMessage[];
-  smtp: SMTPTransport | SMTPTransport.Options | string;
+  smtp: Options | string;
 }
 
 // we intentionally export an empty interface
@@ -18,5 +18,5 @@ export interface GeneratedTypeConfig {}
 
 export interface ModuleResolvedOptions {
   message: MailMessage[];
-  smtp: SMTPTransport | SMTPTransport.Options | string;
+  smtp: Options | string;
 }
