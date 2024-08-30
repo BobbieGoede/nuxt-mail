@@ -1,0 +1,11 @@
+{
+  "name": "playground-nuxt-mail",
+  "scripts": {
+    "dev": "nuxt dev",
+    "dev:prepare": "nuxt prepare"
+  },
+  "devDependencies": {
+    "nuxt": "^3.13.0",
+    "@goede/nuxt-mail": "latest"
+  }
+}

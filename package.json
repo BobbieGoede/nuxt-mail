@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-mail",
+  "name": "@goede/nuxt-mail",
   "version": "5.0.1",
   "description": "Adds email sending capability to a Nuxt.js app. Adds a server route, an injected variable, and uses nodemailer to send emails.",
   "keywords": [
@@ -19,54 +19,69 @@
     "server",
     "webdevelopment"
   ],
-  "repository": "dword-design/nuxt-mail",
-  "funding": "https://github.com/sponsors/dword-design",
+  "repository": "bobbiegoede/nuxt-mail",
+  "funding": "https://github.com/sponsors/bobbiegoede",
   "license": "MIT",
-  "author": "Sebastian Landwehr <info@sebastianlandwehr.com>",
+  "author": "Bobbie Goede",
   "type": "module",
-  "exports": "./dist/index.js",
-  "main": "dist/index.js",
   "files": [
     "dist"
   ],
+  "pnpm": {
+    "overrides": {
+      "@goede/nuxt-mail": "link:."
+    }
+  },
+  "resolutions": {
+    "@goede/nuxt-mail": "link:."
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
+    }
+  },
+  "main": "./dist/module.cjs",
+  "types": "./dist/types.d.ts",
   "scripts": {
-    "checkUnknownFiles": "base checkUnknownFiles",
-    "commit": "base commit",
-    "depcheck": "base depcheck",
-    "dev": "base dev",
-    "lint": "base lint",
-    "prepare": "base prepare",
-    "prepublishOnly": "base prepublishOnly",
-    "test": "base test"
+    "prepare": "nuxt prepare",
+    "build": "nuxt-module-build build .",
+    "dev:prepare": "nuxt-module-build prepare && nuxi prepare playground",
+    "lint": "eslint .",
+    "test": "pnpm --filter './specs/fixtures/**' dev:prepare && vitest"
   },
   "dependencies": {
-    "@dword-design/functions": "^6.0.0",
-    "@nuxt/kit": "^3.0.0",
-    "express": "^4.17.1",
-    "fs-extra": "^11.1.0",
-    "h3": "^1.0.2",
+    "@nuxt/kit": "^3.13.0",
     "nodemailer": "^6.4.11",
-    "nuxt-alias-path": "^2.0.0",
-    "nuxt-push-plugins": "^2.1.2",
-    "parse-packagejson-name": "^1.0.1"
+    "pathe": "^1.1.2"
   },
   "devDependencies": {
-    "@dword-design/base": "^11.0.4",
-    "@dword-design/base-config-nuxt-module": "^1.0.0",
-    "@dword-design/puppeteer": "^7.0.0",
-    "@nuxtjs/axios": "^5.13.1",
-    "axios": "^0",
-    "depcheck-package-name": "^3.0.0",
-    "execa": "^8.0.1",
-    "nuxt": "^3.3.3",
-    "nuxt-dev-ready": "^3.0.0",
-    "ora": "^8.0.1",
-    "output-files": "^2.0.19",
-    "port-ready": "^0.1.0",
+    "@commitlint/config-conventional": "^19.4.1",
+    "@eslint/js": "^9.9.1",
+    "@nuxt/module-builder": "^0.8.3",
+    "@nuxt/schema": "^3.13.0",
+    "@nuxt/test-utils": "^3.14.1",
+    "@playwright/test": "^1.46.1",
+    "@types/eslint": "^9.6.1",
+    "@types/nodemailer": "^6.4.15",
+    "consola": "^3.2.3",
+    "eslint": "^9.9.1",
+    "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.9.0",
+    "h3": "^1.12.0",
+    "nitropack": "^2.9.7",
+    "nuxt": "^3.13.0",
+    "ofetch": "^1.3.4",
+    "pkg-pr-new": "^0.0.20",
+    "playwright-core": "^1.46.1",
     "smtp-tester": "^2.0.1",
-    "tree-kill-promise": "^3.0.9",
-    "with-local-tmp-dir": "^5.0.0"
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.3.0",
+    "unbuild": "^2.0.0",
+    "vitest": "^2.0.5"
   },
+  "packageManager": "pnpm@8.15.5+sha512.b051a32c7e695833b84926d3b29b8cca57254b589f0649d899c6e9d0edb670b91ec7e2a43459bae73759bb5ce619c3266f116bf931ce22d1ef1759a7e45aa96f",
   "engines": {
     "node": ">=18"
   },
