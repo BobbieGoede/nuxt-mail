@@ -1,12 +1,4 @@
 jobs:
-  cancel-existing:
-    if: |
-      !contains(github.event.head_commit.message, '[skip ci]')
-    runs-on: ubuntu-latest
-    steps:
-      - env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        uses: rokroskar/workflow-run-cleanup-action@v0.3.3
   release:
     needs: test
     runs-on: ubuntu-latest
@@ -26,18 +18,12 @@ jobs:
       - run: pnpm dev:prepare
       - run: pnpm lint
       - env:
-          GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        name: Push changed files
-        run: pnpm dw-ci push-changed-files
-      - env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         if: github.ref == 'refs/heads/master'
         name: Release
         run: pnpm semantic-release
   test:
-    needs: cancel-existing
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -54,15 +40,6 @@ jobs:
       - env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: pnpm test
-      - if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: Image Snapshot Diffs
-          path: "**/__image_snapshots__/__diff_output__"
-      - if: matrix.os == 'ubuntu-latest' && matrix.node == 20
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
     strategy:
       matrix:
         include:
