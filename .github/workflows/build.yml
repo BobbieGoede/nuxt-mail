@@ -49,6 +49,7 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: corepack enable
       - run: pnpm install --frozen-lockfile
+      - run: pnpm build
       - env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: pnpm test
