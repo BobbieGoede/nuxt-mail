@@ -97,6 +97,15 @@ importers:
         specifier: ^3.13.0
         version: 3.13.0(eslint@9.9.1)(rollup@3.29.4)(typescript@5.5.4)(vite@5.4.2)
 
+  specs/fixtures/basic:
+    devDependencies:
+      '@goede/nuxt-mail':
+        specifier: workspace:*
+        version: link:../../..
+      nuxt:
+        specifier: ^3.13.0
+        version: 3.13.0(eslint@9.9.1)(rollup@3.29.4)(typescript@5.5.4)(vite@5.4.2)
+
 packages:
 
   /@ampproject/remapping@2.3.0:
