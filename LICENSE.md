@@ -1,8 +1,10 @@
 # License
 
-Unless stated otherwise all works are:
-
+Based on project created by:
 Copyright &copy; Sebastian Landwehr <info@sebastianlandwehr.com>
+
+Work thereafter by:
+Copyright &copy; Bobbie Goede
 
 and licensed under:
 

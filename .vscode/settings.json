@@ -1,29 +1,11 @@
 {
   "editor.tabSize": 2,
   "files.autoSave": "off",
-  "files.exclude": {
-    ".commitlintrc.json": true,
-    ".cz.json": true,
-    ".devcontainer": true,
-    ".editorconfig": true,
-    ".eslintrc.json": true,
-    ".gitattributes": true,
-    ".github": true,
-    ".gitignore": true,
-    ".gitpod.Dockerfile": true,
-    ".gitpod.yml": true,
-    ".husky": true,
-    ".nyc_output": true,
-    ".releaserc.json": true,
-    ".renovaterc.json": true,
-    ".vscode": true,
-    "CHANGELOG.md": true,
-    "LICENSE.md": true,
-    "babel.config.json": true,
-    "coverage": true,
-    "dist": true,
-    "node_modules": true,
-    "yarn.lock": true
-  },
-  "workbench.editor.enablePreview": false
+  "workbench.editor.enablePreview": false,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSaveMode": "file",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
