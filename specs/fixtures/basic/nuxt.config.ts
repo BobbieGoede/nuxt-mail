@@ -3,8 +3,9 @@ export default defineNuxtConfig({
 
   mail: {
     message: [
-      { name: "bcc", bcc: "johndoe@gmail.com" },
+      { name: "to", to: "johndoe@gmail.com" },
       { name: "cc", cc: "johndoe@gmail.com" },
+      { name: "bcc", bcc: "johndoe@gmail.com" },
       { name: "cc-bcc", cc: "cc@gmail.com", bcc: "bcc@gmail.com" },
     ],
     smtp: {},
