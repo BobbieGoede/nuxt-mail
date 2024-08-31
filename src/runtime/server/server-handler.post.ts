@@ -1,15 +1,13 @@
 import nodemailer from "nodemailer";
 import { createError, defineEventHandler, readBody } from "h3";
 
-// name is replaced at build time
-import { options } from "#internal/__MODULE_NAME__/options.mjs";
+import { options } from "#internal/@goede/nuxt-mail/options.mjs";
 
 import type { Transporter } from "nodemailer";
-import type { ModuleResolvedOptions } from "../../types";
+import type { ModuleResolvedOptions } from "@goede/nuxt-mail";
 import type { MailBody } from "../types";
 
 async function send(body: MailBody, options: ModuleResolvedOptions, transport: Transporter) {
-  // type assertion due to conflicts between generated/built types
   let configIndexer = body.config ?? 0;
 
   if (typeof configIndexer === "string") {

@@ -64,6 +64,6 @@ export default [
 
   // override rules
   {
-    rules: { "@typescript-eslint/ban-ts-comment": "off" },
+    rules: { "@typescript-eslint/ban-ts-comment": "off", "@typescript-eslint/unbound-method": "off" },
   },
 ];

@@ -5,7 +5,7 @@ const mail = useMail();
 
 function onSendButton() {
   mail.send({
-    config: "myConfig",
+    config: "config-1",
     from: "John Doe",
     subject: "Incredible",
     text: "This is an incredible test message",

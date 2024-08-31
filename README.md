@@ -1,6 +1,6 @@
 <!-- TITLE/ -->
 
-# @goede/nuxt-mail
+# ✉️ Nuxt Mail
 
 <!-- /TITLE -->
 
@@ -9,41 +9,42 @@
 
 <!-- DESCRIPTION/ -->
 
-This is a fork and rewrite of [`nuxt-mail`](https://github.com/dword-design/nuxt-mail), intended to target Nuxt 3 and higher with types. Details below may be outdated or may refer to `nuxt-mail` instead of this fork.
+> This a full rewrite of [`nuxt-mail`](https://github.com/dword-design/nuxt-mail) using typescript, `@nuxt/module-builder` and supports Nuxt `>=3.0.0` only.
 
-Adds email sending capability to a Nuxt.js app. Adds a server route, an injected variable, and uses nodemailer to send emails.
+- 📨 Send emails using `useNuxtApp().$mail` or the `useMail()` composable
+- ⚙️ Generated types based on configuration for type inference
+- 📫 Uses `nodemailer` under the hood
+
+Adds email sending capability to your Nuxt app. Adds a server route, an injected variable, and uses nodemailer to send emails.
 
 <!-- /DESCRIPTION -->
 
-Does not work for static sites (via `nuxt generate`) because the module creates a server route.
+> [!WARNING]
+> This module does not work for statically generated sites (SSG) as it relies on server routes to communicate with the SMTP server.
 
 <!-- INSTALL/ -->
 
 ## Install
 
 ```bash
-# npm
-$ npx nuxi module add nuxt-mail
-
-# Yarn
-$ yarn nuxi module add nuxt-mail
+$ npx nuxi module add @goede/nuxt-mail
 ```
 
 <!-- /INSTALL -->
 
 ## Configuration
 
-Add the module to the `modules` array in your `nuxt.config.js`. Note to add it to `modules` instead of `buildModules`, otherwise the server route will not be generated.
+Add the module to the `modules` array in your `nuxt.config.ts`.
 
-```js
-// nuxt.config.js
-export default {
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
   modules: [
     [
-      "nuxt-mail",
+      "@goede/nuxt-mail",
       {
         message: {
-          to: "foo@bar.de",
+          to: "foo@bar.nl",
         },
         smtp: {
           host: "smtp.example.com",
@@ -55,21 +56,24 @@ export default {
   // or use the top-level option:
   mail: {
     message: {
-      to: "foo@bar.de",
+      to: "foo@bar.nl",
     },
     smtp: {
       host: "smtp.example.com",
       port: 587,
     },
   },
-};
+});
 ```
 
-The `smtp` options are required and directly passed to [nodemailer](https://nodemailer.com/smtp/). Refer to their documentation for available options. Also, you have to pass at least `to`, `cc` or `bcc` via the `message` config. This has security reasons, this way the client cannot send emails from your SMTP server to arbitrary recipients. You can actually preconfigure the message via the `message` config, so if you always want to send emails with the same subject or from address, you can configure them here.
+> [!WARNING]
+> For security reasons a message configuration is required to set a `to`, `cc` or `bcc` property. This prevents sending out mails to arbitrary recipients from the client-side, only to those preconfigured.
 
-The module injects the `$mail` variable, which we now use to send emails:
+The `smtp` options are required and directly passed to [nodemailer](https://nodemailer.com/smtp/). Refer to their documentation for available options.
 
-## Nuxt 3
+Besides setting the recipient fields, you can preconfigure other message fields in the `message` config to send emails with the common values (such as `subject`, `from`, etc.).
+
+## Usage
 
 ### Via composable
 
@@ -102,8 +106,8 @@ The module injects the `$mail` variable, which we now use to send emails:
 ### Via Options API
 
 ```html
-<script>
-  export default {
+<script lang="ts">
+  export default defineNuxtcomponent({
     methods: {
       sendEmail() {
         this.$mail.send({
@@ -113,79 +117,35 @@ The module injects the `$mail` variable, which we now use to send emails:
         });
       },
     },
-  };
+  });
 </script>
-```
-
-## Nuxt 2
-
-For Nuxt 2, you need to install [@nuxtjs/axios](https://www.npmjs.com/package/@nuxtjs/axios) and add it to your module list before `nuxt-mail`:
-
-```js
-// nuxt.config.js
-export default {
-  modules: [
-    [
-      '@nuxtjs/axios',
-      ['nuxt-mail', { /* ... */ }],
-    }],
-  ],
-}
-```
-
-Then you can use the injected variable like so:
-
-```html
-<script>
-  export default {
-    methods: {
-      sendEmail() {
-        this.$mail.send({
-          from: "John Doe",
-          subject: "Incredible",
-          text: "This is an incredible test message",
-        });
-      },
-    },
-  };
-</script>
-```
-
-### Note about production use
-
-When you use `nuxt-mail` in production and you configured a reverse proxy that hides your localhost behind a domain, you need to tell `@nuxt/axios` which base URL you are using. Otherwise `nuxt-mail` won't find the send route. Refer to [@nuxt/axios options](https://axios.nuxtjs.org/options) on how to do that. The easiest option is to set the `API_URL` environment variable, or set something else in your `nuxt.config.js`:
-
-```js
-// nuxt.config.js
-export default {
-  axios: {
-    baseURL: process.env.BASE_URL,
-  },
-};
 ```
 
 ## Multiple message configs
 
-It is also possible to provide multiple message configurations by changing the `message` config into an array.
+Multiple message configurations can be set by changing the `message` config into an array.
 
-```js
-// nuxt.config.js
-export default {
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
   modules: [
-    ['nuxt-mail', {
-      message: [
-        { name: 'contact', to: 'contact@foo.de' },
-        { name: 'support', to: 'support@foo.de' },
-      ],
-      ...
-    }],
+    [
+      "@goede/nuxt-mail",
+      {
+        message: [
+          { name: "contact", to: "contact@foo.nl" },
+          { name: "support", to: "support@foo.nl" },
+        ],
+        // ...
+      },
+    ],
   ],
-}
+});
 ```
 
-Then you can reference the config like this:
+These configurations can be used by passing `config` property that corresponds with the config `name`. These names will autocomplete using types generated on startup.
 
-```js
+```ts
 mail.send({
   config: "support",
   from: "John Doe",
@@ -194,9 +154,12 @@ mail.send({
 });
 ```
 
-Or via index (in which case you do not need the `name` property):
+For legacy purposes we support passing the config index instead of the config name.
 
-```js
+> [!NOTE]
+> This will be removed in v2 as the config name is now typesafe.
+
+```ts
 mail.send({
   config: 1, // Resolves to 'support'
   from: "John Doe",
@@ -205,20 +168,18 @@ mail.send({
 });
 ```
 
-Also, the module does not work for static sites (via `nuxt generate`) because the module creates a server route.
-
 ## Setting up popular email services
 
 ### Gmail
 
 You have to setup an [app-specific password](https://myaccount.google.com/apppasswords) to log into the SMTP server. Then, add the following config to your `nuxt-mail` config. Looks like there are multiple ways to configure Gmail, so it's best to try out the options:
 
-```js
-// nuxt.config.js
-export default {
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
   modules: [
     [
-      "nuxt-mail",
+      "@goede/nuxt-mail",
       {
         smtp: {
           service: "gmail",
@@ -230,12 +191,12 @@ export default {
       },
     ],
   ],
-};
+});
 ```
 
-```js
-// nuxt.config.js
-export default {
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
   modules: [
     [
       "nuxt-mail",
@@ -251,67 +212,29 @@ export default {
       },
     ],
   ],
-};
+});
 ```
 
-Missing something? Add your service here via a [pull request](https://github.com/dword-design/nuxt-mail/pulls).
+Missing something? Add your service here via a [pull request](https://github.com/BobbieGoede/nuxt-mail/pulls).
 
 ## Debugging mail errors
 
-If the mail doesn't get sent, you can debug the error using the browser developer tools. If a `500` error is thrown (check out the console output), you can find the error message in the Network tab. For Chrome users, open the Network tab, then find the "send" request. Open it and select the "Response" tab. There it should show the error message. In most cases, it is related to authentication with the SMTP server.
+You can debug errors using the browser developer tools, if a `500` error is thrown (check out the console output), you can find the error message in the Network tab. For Chrome users, open the Network tab and look for the "send" request. Open it and select the "Response" tab, this should show the error message, in most cases the error is related to authentication with the SMTP server.
 
 ## Open questions
 
 ### "Self signed certificate in certificate chain" error
 
-There is [an issue](https://github.com/dword-design/nuxt-mail/issues/62) where the above error is thrown. If someone knows a solution for this, it is warmly welcome 😍.
+There is [an open issue](https://github.com/dword-design/nuxt-mail/issues/62) where the above error is thrown, if you know what could be causing this or have a solution for this please join the issue discussion and let us know!
 
 <!-- LICENSE/ -->
 
 ## Contribute
 
-Are you missing something or want to contribute? Feel free to file an [issue](https://github.com/dword-design/nuxt-mail/issues) or a [pull request](https://github.com/dword-design/nuxt-mail/pulls)! ⚙️
-
-## Support
-
-Hey, I am Sebastian Landwehr, a freelance web developer, and I love developing web apps and open source packages. If you want to support me so that I can keep packages up to date and build more helpful tools, you can donate here:
-
-<p>
-  <a href="https://www.buymeacoffee.com/dword">
-    <img
-      src="https://www.buymeacoffee.com/assets/img/guidelines/download-assets-sm-2.svg"
-      alt="Buy Me a Coffee"
-      width="114"
-    >
-  </a>&nbsp;If you want to send me a one time donation. The coffee is pretty good 😊.<br/>
-  <a href="https://paypal.me/SebastianLandwehr">
-    <img
-      src="https://sebastianlandwehr.com/images/paypal.svg"
-      alt="PayPal"
-      width="163"
-    >
-  </a>&nbsp;Also for one time donations if you like PayPal.<br/>
-  <a href="https://www.patreon.com/dworddesign">
-    <img
-      src="https://sebastianlandwehr.com/images/patreon.svg"
-      alt="Patreon"
-      width="163"
-    >
-  </a>&nbsp;Here you can support me regularly, which is great so I can steadily work on projects.
-</p>
-
-Thanks a lot for your support! ❤️
-
-## See also
-
-- [nuxt-route-meta](https://github.com/dword-design/nuxt-route-meta): Adds Nuxt page data to route meta at build time.
-- [nuxt-modernizr](https://github.com/dword-design/nuxt-modernizr): Adds a Modernizr build to your Nuxt.js app.
-- [nuxt-mermaid-string](https://github.com/dword-design/nuxt-mermaid-string): Embed a Mermaid diagram in a Nuxt.js app by providing its diagram string.
-- [nuxt-content-git](https://github.com/dword-design/nuxt-content-git): Additional module for @nuxt/content that replaces or adds createdAt and updatedAt dates based on the git history.
-- [nuxt-babel-runtime](https://github.com/dword-design/nuxt-babel-runtime): Nuxt CLI that supports babel. Inspired by @nuxt/typescript-runtime.
+Are you missing something or want to contribute? Feel free to file an [issue](https://github.com/BobbieGoede/nuxt-mail/issues) or a [pull request](https://github.com/BobbieGoede/nuxt-mail/pulls)! ⚙️
 
 ## License
 
-[MIT License](https://opensource.org/license/mit/) © [Sebastian Landwehr](https://sebastianlandwehr.com)
+[MIT License](https://opensource.org/license/mit/) © [Bobbie Goede](https://github.com/BobbieGoede) & [Sebastian Landwehr](https://sebastianlandwehr.com)
 
 <!-- /LICENSE -->

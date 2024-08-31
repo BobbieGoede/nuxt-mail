@@ -79,6 +79,7 @@
     "nuxt": "^3.13.0",
     "ofetch": "^1.3.4",
     "pkg-pr-new": "^0.0.20",
+    "pkg-types": "^1.2.0",
     "playwright-core": "^1.46.1",
     "smtp-tester": "^2.0.1",
     "typescript": "^5.5.4",

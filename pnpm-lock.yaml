@@ -81,6 +81,9 @@ importers:
       pkg-pr-new:
         specifier: ^0.0.20
         version: 0.0.20
+      pkg-types:
+        specifier: ^1.2.0
+        version: 1.2.0
       playwright-core:
         specifier: ^1.46.1
         version: 1.46.1
