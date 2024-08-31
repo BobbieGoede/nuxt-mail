@@ -5,6 +5,14 @@
 <!-- /TITLE -->
 
 <!-- BADGES/ -->
+<p>
+  <a href="https://npmjs.org/package/@goede/nuxt-mail">
+    <img
+      src="https://img.shields.io/npm/v/@goede/nuxt-mail.svg"
+      alt="npm version"
+    >
+  </a>
+</p>
 <!-- /BADGES -->
 
 <!-- DESCRIPTION/ -->
