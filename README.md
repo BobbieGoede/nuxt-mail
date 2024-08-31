@@ -13,9 +13,7 @@
 
 - 📨 Send emails using `useNuxtApp().$mail` or the `useMail()` composable
 - ⚙️ Generated types based on configuration for type inference
-- 📫 Uses `nodemailer` under the hood
-
-Adds email sending capability to your Nuxt app. Adds a server route, an injected variable, and uses nodemailer to send emails.
+- 📫 Uses `nodemailer` from within a server route
 
 <!-- /DESCRIPTION -->
 
