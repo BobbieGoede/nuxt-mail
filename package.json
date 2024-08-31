@@ -50,6 +50,7 @@
     "prepare": "nuxt prepare",
     "build": "nuxt-module-build build .",
     "lint": "eslint .",
+    "changelog": "gh-changelogen --repo=BobbieGoede/nuxt-mail",
     "release": "bumpp --commit \"release: v%s\" --push --tag",
     "test": "pnpm --filter './specs/fixtures/**' dev:prepare && vitest"
   },
@@ -72,6 +73,7 @@
     "consola": "^3.2.3",
     "eslint": "^9.9.1",
     "eslint-config-prettier": "^9.1.0",
+    "gh-changelogen": "^0.2.8",
     "globals": "^15.9.0",
     "h3": "^1.12.0",
     "jiti": "^1.21.6",
