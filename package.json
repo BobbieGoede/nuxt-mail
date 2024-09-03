@@ -48,6 +48,7 @@
   "types": "./dist/types.d.ts",
   "scripts": {
     "prepare": "nuxt prepare",
+    "prepack": "pnpm build",
     "build": "nuxt-module-build build .",
     "lint": "eslint .",
     "changelog": "gh-changelogen --repo=BobbieGoede/nuxt-mail",
