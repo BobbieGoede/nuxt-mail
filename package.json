@@ -2,22 +2,6 @@
   "name": "@goede/nuxt-mail",
   "version": "1.0.2",
   "description": "Adds email sending capability to a Nuxt.js app. Adds a server route, an injected variable, and uses nodemailer to send emails.",
-  "keywords": [
-    "email",
-    "frontend",
-    "inject",
-    "javascript",
-    "mail",
-    "nodemailer",
-    "npm",
-    "npm-package",
-    "nuxt",
-    "nuxt-module",
-    "nuxtjs",
-    "nuxtjs-module",
-    "server",
-    "webdevelopment"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BobbieGoede/nuxt-mail.git"
