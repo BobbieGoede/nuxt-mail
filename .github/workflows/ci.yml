@@ -23,6 +23,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - run: corepack enable
+      - run: corepack use pnpm@10.1.0
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
