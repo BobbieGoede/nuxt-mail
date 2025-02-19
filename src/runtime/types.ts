@@ -1,4 +1,5 @@
 import type { GeneratedTypeConfig } from "@goede/nuxt-mail";
+import type { Options } from "nodemailer/lib/mailer";
 
 export type GeneratedConfigNames = GeneratedTypeConfig extends Record<"configNames", infer ConfigName>
   ? ConfigName
@@ -8,7 +9,7 @@ type ResolvedConfigNames = IsNever<GeneratedConfigNames> extends true ? number |
 
 export type IsNever<T> = [T] extends [never] ? true : false;
 
-export interface MailBody {
+export interface MailBody extends Options {
   /**
    * Index or name of config to use
    */
@@ -23,11 +24,6 @@ export interface MailBody {
    * Email subject
    */
   subject: string;
-
-  /**
-   * Email text content
-   */
-  text: string;
 
   /**
    * The repient's email address
